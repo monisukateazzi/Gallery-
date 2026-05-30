@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moni's Gallery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: white;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: hidden;
+            min-height: 100vh;
+            width: 100vw;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 15px; 
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; 
+            z-index: 10;
+            position: relative;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.7); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 8px;
+            padding: 20px 18px; 
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .section-desc {
+            font-size: 0.75rem; 
+            color: #666;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .card h1 {
+            font-size: 1.35rem; 
+            margin-bottom: 14px;
+            color: #111;
+            line-height: 1.3;
+        }
+
+        .card p {
+            color: #222;
+            line-height: 1.6;
+            font-size: 0.88rem;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .info-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            vertical-align: middle;
+            font-size: 0.88rem;
+            color: #222;
+        }
+
+        .info-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .info-table td:last-child {
+            text-align: right;
+        }
+
+        .info-table a {
+            text-decoration: none;
+            font-weight: bold;
+            transition: opacity 0.2s;
+            display: inline-block; 
+        }
+
+        .info-table a:hover {
+            opacity: 0.7;
+        }
+
+        .text-red {
+            color: #ff0000;
+        }
+
+        .portfolio-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .portfolio-item {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding-bottom: 14px;
+        }
+
+        .portfolio-item:last-of-type {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .project-title {
+            font-weight: bold;
+            color: #111;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .project-desc {
+            font-size: 0.85rem;
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .project-screenshot {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            object-fit: cover;
+            aspect-ratio: 9 / 16;
+        }
+
+        .single-screenshot {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            margin-top: 10px;
+        }
+
+        .archive-link {
+            display: block;
+            text-align: center;
+            color: #ff0000;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 16px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .archive-link:hover {
+            text-decoration: underline;
+        }
+
+        .interaction-area {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background-color: transparent;
+            pointer-events: auto;
+        }
+
+        .color-ripple {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%) scale(0);
+            animation: ripple-expand 1.8s ease-out forwards; 
+            opacity: 0;
+            filter: blur(30px);
+        }
+
+        @keyframes ripple-expand {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 0.25;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(5);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="interaction-area" id="interactionArea"></div>
+
+    <div class="container">
+        
+        <div class="card">
+            <div class="section-desc">Introduction // Welcome</div>
+            <h1>Hi! I'm Gyshela Gustiar</h1>
+            <p>Welcome to my personal corner of the internet!!. I am a high-school student (currently in Grade-11) from Jakarta, Indonesia who loves coding, electronics, and building random cool projects. This website is a collection of things I've built, experiments I've tried, and lessons I've picked up throughout my journey.</p>
+        </div>
+
+        <div class="card">
+            <div class="section-desc">Skills // Core Capabilities</div>
+            <table class="info-table">
+                <tr>
+                    <td>HTML / CSS</td>
+                    <td style="color: #555;">Intermediate</td>
+                </tr>
+                <tr>
+                    <td>JavaScript</td>
+                    <td style="color: #555;">Intermediate</td>
+                </tr>
+                <tr>
+                    <td>Python</td>
+                    <td style="color: #555;">Intermediate</td>
+                </tr>
+                <tr>
+                    <td>C++</td>
+                    <td style="color: #555;">Advanced</td>
+                </tr>
+                <tr>
+                    <td>Node.js</td>
+                    <td style="color: #555;">Advanced</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <div class="section-desc">Connect // Socials</div>
+            <table class="info-table">
+                <tr>
+                    <td>GitHub</td>
+                    <td><a href="https://github.com/monisukateazzi" target="_blank" class="text-red">@monisukateazzi &rarr;</a></td>
+                </tr>
+                <tr>
+                    <td>LinkedIn</td>
+                    <td><a href="https://www.linkedin.com/in/gyshela-grimonia-gustiar-065404302?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="text-red">Connect &rarr;</a></td>
+                </tr>
+                <tr>
+                    <td>Instagram</td>
+                    <td><a href="https://www.instagram.com/monisborin?igsh=MXhjaGFhenpjbGp6cw==" target="_blank" class="text-red">Follow &rarr;</a></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <div class="section-desc">Works // Selected Projects</div>
+            <div class="portfolio-list">
+                <div class="portfolio-item">
+                    <div class="project-title">IndoWeatherCheck</div>
+                    <div class="project-desc">I made IndoWeatherCheck because I wanted to see how real-time data works on the web and make something for daily life. This project gets weather information for places over Indonesia so users can easily check the current weather and forecasts. From this project I learned how to use APIs work with data and show content on a website.</div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="project-title">Termometer X</div>
+                    <div class="project-desc">I started Termometer X as a school project that involved doing thermometer calculations, which I found really boring and hard to do by hand. Of doing them over and over I made a website that does the calculations and temperature conversions for me. This project taught me how to turn math formulas into code and make a tool that solves a problem I had.</div>
+                    <img src="Termometer-X-Converter.png" alt="Termometer X Converter Workspace" class="single-screenshot">
+                </div>
+                <div class="portfolio-item">
+                    <div class="project-title">Sound Activated Lamp</div>
+                    <div class="project-desc">I built this project to learn about electronics and make something interactive with an ESP32. The lamp turns on and off when it hears sound which shows how devices can automatically react to what's happening around them. From this project I learned about sensors, microcontrollers and how hardware and software work together.</div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="project-title">Doculapse</div>
+                    <div class="project-desc">Doculapse is a document editor that records how you write and turns it into a video that you can play back. I thought of this idea when I wondered how documents are made, not just what they look like when they are finished. Building this project has taught me about managing data, designing user experiences and making complex web applications.</div>
+                    <div class="project-gallery">
+                        <img src="Doculapse(1).jpg" alt="Doculapse Workspace" class="project-screenshot">
+                        <img src="Doculapse(2).jpg" alt="Doculapse Format Options" class="project-screenshot">
+                        <img src="Doculapse(3).jpg" alt="Doculapse Document Options" class="project-screenshot">
+                    </div>
+                </div>
+            </div>
+            <a href="https://github.com/monisukateazzi" target="_blank" class="archive-link">
+                See all archives and older projects in my GitHub profile &rarr;
+            </a>
+        </div>
+
+        <div class="card">
+            <div class="section-desc">Progress // Project On-Progress</div>
+            <div class="portfolio-list">
+                <div class="portfolio-item">
+                    <div class="project-title">MP3 ESP32</div>
+                    <div class="project-desc">I am currently working on an MP3 player using ESP32 to learn more about embedded systems and how audio works. This project is about playing audio on a device that uses a microcontroller and it is teaching me more about how hardware works together and how to make systems run better.</div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="project-title">Rhythm++</div>
+                    <div class="project-desc">Rhythm++ is a game that combines coding challenges with gameplay. I am trying it out to see how learning can be made more fun through games. As I work on it I am learning about designing games making systems that help players progress and creating experiences, for users.</div>
+                    <img src="Rhythm++.png" alt="Rhythm++ UI Preview" class="single-screenshot">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const area = document.getElementById('interactionArea');
+        const colors = [
+            '#FF007F', '#FF7F00', '#FFBF00', '#FFFF00', '#BFFF00', '#7FFF00',
+            '#00FF00', '#00FF7F', '#00FFFF', '#007FFF', '#0000FF', '#7F00FF'
+        ];
+        
+        function getColorByLocation(x, y) {
+            const numCols = 6; 
+            const numRows = 4; 
+            
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            
+            const col = Math.floor((x / width) * numCols);
+            const row = Math.floor((y / height) * numRows);
+            
+            const index = row * numCols + col;
+            return colors[index % colors.length];
+        }
+
+        function createColorRipple(x, y) {
+            const ripple = document.createElement('div');
+            ripple.classList.add('color-ripple');
+            
+            const color = getColorByLocation(x, y);
+            ripple.style.backgroundColor = color;
+            
+            const size = Math.max(window.innerWidth, window.innerHeight) * 0.3;
+            ripple.style.width = `${size}px`;
+            ripple.style.height = `${size}px`;
+            
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            
+            area.appendChild(ripple);
+
+            ripple.addEventListener('animationend', () => {
+                ripple.remove();
+            });
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            if (Math.random() < 0.8) { 
+                createColorRipple(e.clientX, e.clientY);
+            }
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            if (Math.random() < 0.9) { 
+                const touch = e.touches[0];
+                createColorRipple(touch.clientX, touch.clientY);
+            }
+        }, { passive: true });
+    </script>
+</body>
+</html>
