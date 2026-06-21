@@ -1,3 +1,4 @@
+
 const area = document.getElementById('interactionArea');
 const colors = [
     '#FF007F', '#FF7F00', '#FFBF00', '#FFFF00', '#BFFF00', '#7FFF00',
